@@ -1,5 +1,6 @@
-package com.xunlei.spring.service;
+package com.xunlei.spring.resource;
 
+import com.xunlei.spring.service.MyService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

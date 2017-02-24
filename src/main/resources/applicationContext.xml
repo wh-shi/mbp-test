@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:annotation-config/>
+
+    <bean id="abstractDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"/>
+
+    <bean id="dataSource" parent="abstractDataSource" lazy-init="true">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/mbp_test"/>
+        <property name="username" value="root"/>
+        <property name="password" value="201314"/>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations" value="classpath:mapper/MyMapper.xml"/>
+    </bean>
+
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="myDao" class="com.xunlei.spring.dao.MyDao">
+        <property name="sqlSession" ref="sqlSession"/>
+    </bean>
+
+    <bean id="myService" class="com.xunlei.spring.service.MyService">
+        <property name="myDao" ref="myDao"/>
+    </bean>
+
+</beans>

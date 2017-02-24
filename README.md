@@ -1,1 +1,1 @@
-# spring-mvc test
+# spring test
